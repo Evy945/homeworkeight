@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>综合作业</title>
+	<link rel="stylesheet" href="css.css">
+	<script src="animate.js"></script>
+</head>
+<body>
+	<div class="div1">
+		<div class="div1_1">
+			<img src="images/爱奇艺logo.png"/>
+		</div>
+		<div class="div_2">
+			爱奇艺账号：<input type="text" name="idnumber" id="iptnumber"/>
+			密码：<input type="password" name="idpassword" id="iptpassword"/>
+			<div id="forget"></div>
+		</div>
+		<div id="time"></div>
+	</div>
+	<div class="div2" id="box1">
+		<div class="slider clear" id="slider">
+			<div class="slide"><img src="images/轮播图奔跑吧黄河篇.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图倾世锦鳞谷雨来.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图狼殿下.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图潮流合伙人.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图终极笔记.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图奔跑吧黄河篇.jpg" alt=""/></div>
+			<div class="slide"><img src="images/轮播图倾世锦鳞谷雨来.jpg" alt=""/></div>
+		</div>
+		<span id="left">&lt;</span>
+		<span id="right">&gt;</span>
+		<ul class="nav clear" id="nav">
+			<li class="active"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<div class="div3">
+		<p class="write">可发布弹幕，来发表您对于《如果声音不记得的观影感受》&nbsp;&nbsp;由此输入，点击回车键发送：<input id="inp"/></p>
+		<div id="box2">
+			<div id="wrap" style="display:block;"><img src="images/如果声音不记得.jpg" class="screenback"/></div>
+		</div>
+		<div class="imgleft1"><img src="images/如果声音不记得左一.jpg" class="imgl1"/></div>
+		<div class="imgleft2"><img src="images/如果声音不记得左二.jpg" class="imgl2"/></div>
+		<div class="imgright1"><img src="images/如果声音不记得右一.jpg" class="imgr1"/></div>
+		<div class="imgright2"><img src="images/如果声音不记得右二.jpg" class="imgr2"/></div>
+	</div>
+	<div class="div4">
+		<div class="div4_1">
+			<p class="write1">关于我们</p>
+			<p class="write2">公司介绍&nbsp;&nbsp;&nbsp;&nbsp;联系方式</p>
+			<p class="write2">新闻动态&nbsp;&nbsp;&nbsp;&nbsp;爱奇艺招聘</p>
+		</div>
+		<div class="div4_2">
+			<p class="write1">生态合作</p>
+			<p class="write2">内容合作&nbsp;&nbsp;&nbsp;&nbsp;会员合作&nbsp;&nbsp;&nbsp;&nbsp;爱奇艺号</p>
+			<p class="write2">广告合作&nbsp;&nbsp;&nbsp;&nbsp;技术合作&nbsp;&nbsp;&nbsp;&nbsp;互动视频标准</p>
+		</div>
+		<div class="div4_3">
+			<p class="write1">服务</p>
+			<p class="write2">用户协议&nbsp;&nbsp;&nbsp;&nbsp;帮助与反馈</p>
+			<p class="write2">隐私政策&nbsp;&nbsp;&nbsp;&nbsp;侵权举报与投诉</p>
+	</div>
+	<script>
+		var forget=document.getElementById('forget');
+		var iptpassword=document.getElementById('iptpassword');
+		var time=document.getElementById('time');
+		var box=document.getElementById('box');
+		var oNavlist=document.getElementById('nav').children;
+		var slider=document.getElementById('slider');
+		var left=document.getElementById('left');
+		var right=document.getElementById('right');
+		var index=1;
+		var timer;
+		var isMoving=false;
+		var box2=document.getElementById('wrap');
+		var inp=document.getElementById('inp');
+		iptpassword.onfocus=function(){
+			forget.innerHTML="忘记密码可发送短信f至10023找回。";
+		}
+		iptpassword.onblur=function(){
+			forget.innerHTML="";
+		}
+		function add0(n){
+			return n<10?'0'+n:n;
+		}
+		function showtime(){
+			var d=new Date();
+			var h=d.getHours();
+			var m=d.getMinutes();
+			var s=d.getSeconds();
+			time.innerHTML=add0(h)+'-'+add0(m)+'-'+add0(s);
+		}
+		showtime();
+		setInterval(showtime,1000);
+		box1.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		}
+		box1.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer=setInterval(next,3000);
+		}
+		right.onclick=next;
+		left.onclick=prev;
+		for(var i=0;i<oNavlist.length;i++){
+			oNavlist[i].index=i;
+			oNavlist[i].onclick=function(){
+				index=this.index+1;
+				navmove();
+				animate(slider,{left:-1200*index});
+			}
+		}
+		function next(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index++;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==6){
+					slider.style.left='-1200px';
+					index=1;
+				}
+				isMoving=false;
+			});
+		}
+		function prev(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index--;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==0){
+					slider.style.left='-6000px';
+					index=5;
+				}
+				isMoving=false;
+			});
+		}
+		function navmove(){
+			for(var i=0;i<oNavlist.length;i++){
+				oNavlist[i].className="";
+			}
+			if(index>5){
+				oNavlist[0].className="active";
+			}else if(index<=0){
+				oNavlist[4].className="active";
+			}else{
+				oNavlist[index-1].className="active";
+			}
+		}
+		timer=setInterval(next,3000);
+		inp.onkeypress=function(e){
+			if(e.keyCode==13){
+				var span=document.createElement('span');
+				span.innerHTML=inp.value;
+				span.style.left='600px';
+				span.style.top=Math.random()*300+'px';
+				var timerr=setInterval(function(){
+					span.style.left=parseInt(span.style.left)-1+'px';
+					if(parseInt(span.style.left)<-span.offsetWidth){
+						box.removeChild(span);
+						clearInterval(timerr);
+					}
+				},10);
+				box2.appendChild(span);
+				inp.value="";
+			}
+		}
+	</script>
+</body>
+</html>
